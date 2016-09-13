@@ -13,6 +13,8 @@ BLUE=$(tput setaf 12)
 BOLD=$(tput bold)
 NORMAL=$(tput sgr0)
 INSTALLED=0
+BASE_PATH=$(pwd)
+QMAKE_QT5_PATH=$(which qmake-qt5)
 
 
 # PRINT THE MAIN MESSAGE
@@ -34,6 +36,28 @@ INFO_MESSAGE () {
     echo " ${YELLOW}  Architecture: " $ARCHITECTURE;
     echo "${WHITE}"
     sleep 5;
+}
+
+INSTALL_OPENCV () {
+	if [[ -d $CURRENT_PATH"opencv" ]]; then
+	    INSTALLED=1
+	else
+	    echo " ";
+	    echo "${BLUE}${BOLD}Install from Github: OpenCV${WHITE}${NORMAL} (Library of real-time computer vision)";
+	    echo " ";
+	    sleep 3;
+	    git clone https://github.com/Itseez/opencv.git
+	    cd opencv
+	    mkdir build && cd build
+	    cmake ..
+	    make -j8
+	    sudo make install
+	    sudo ldconfig
+	    cd $CURRENT_PATH 
+	    echo " ";
+		INSTALLED=1
+	fi
+
 }
 
 INSTALL_UBUNTU_16_04 () {
@@ -67,21 +91,7 @@ INSTALL_UBUNTU_16_04 () {
     sleep 5;
     sudo apt-get install g++ cmake git uvcdynctrl libzmqpp3 libzmqpp-dev protobuf-compiler libprotobuf-dev qt5-qmake qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev doxygen graphviz graphviz-dev libboost-all-dev freeglut3 freeglut3-dev libbullet-dev
 
-    echo " ";
-    echo "${BLUE}${BOLD}Install from Github: OpenCV${WHITE}${NORMAL} (Library of real-time computer vision)";
-    echo " ";
-    sleep 3;
-    git clone https://github.com/Itseez/opencv.git
-    cd opencv
-    mkdir build && cd build
-    cmake ..
-    make -j8
-    sudo make install
-    sudo ldconfig
-    cd ..
-    cd ..
-    echo " ";
-    INSTALLED=1
+    INSTALL_OPENCV;
 }
 
 INSTALL_UBUNTU_14_04 () {
@@ -115,21 +125,7 @@ INSTALL_UBUNTU_14_04 () {
     sleep 5;
     sudo apt-get install g++ cmake git uvcdynctrl libzmq3 libzmq3-dev protobuf-compiler libprotobuf-dev qt5-qmake qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev doxygen graphviz graphviz graphviz-dev libboost-all-dev freeglut3 freeglut3-dev libbullet-dev
 
-    echo " ";
-    echo "${BLUE}${BOLD}Install from Github: OpenCV${WHITE}${NORMAL} (Library of real-time computer vision)";
-    echo " ";
-    sleep 3;
-    git clone https://github.com/Itseez/opencv.git
-    cd opencv
-    mkdir build && cd build
-    cmake ..
-    make -j8
-    sudo make install
-    sudo ldconfig
-    cd ..
-    cd ..
-    echo " ";
-    INSTALLED=1
+    INSTALL_OPENCV;
 }
 
 INSTALL_DEBIAN_8_2 () {
@@ -163,21 +159,7 @@ INSTALL_DEBIAN_8_2 () {
     sleep 5;
     sudo apt-get install g++ cmake git uvcdynctrl libzmq3 libzmq3-dev protobuf-compiler libprotobuf-dev qt5-default qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev doxygen graphviz graphviz graphviz-dev libboost-all-dev freeglut3 freeglut3-dev libbullet-dev
 
-    echo " ";
-    echo "${BLUE}${BOLD}Install from Github: OpenCV${WHITE}${NORMAL} (Library of real-time computer vision)";
-    echo " ";
-    sleep 3;
-    git clone https://github.com/Itseez/opencv.git
-    cd opencv
-    mkdir build && cd build
-    cmake ..
-    make -j8
-    sudo make install
-    sudo ldconfig
-    cd ..
-    cd ..
-    echo " ";
-    INSTALLED=1
+    INSTALL_OPENCV;
 }
 
 INSTALL_DEBIAN_8_5 () {
@@ -211,50 +193,68 @@ INSTALL_DEBIAN_8_5 () {
     sleep 5;
     sudo apt-get install g++ cmake git uvcdynctrl libzmq3 libzmq3-dev protobuf-compiler libprotobuf-dev qt5-default qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev doxygen graphviz graphviz graphviz-dev libboost-all-dev freeglut3 freeglut3-dev libbullet-dev
 
-    echo " ";
-    echo "${BLUE}${BOLD}Install from Github: OpenCV${WHITE}${NORMAL} (Library of real-time computer vision)";
-    echo " ";
-    sleep 3;
-    git clone https://github.com/Itseez/opencv.git
-    cd opencv
-    mkdir build && cd build
-    cmake ..
-    make -j8
-    sudo make install
-    sudo ldconfig
-    cd ..
-    cd ..
-    echo " ";
-    INSTALLED=1
+    INSTALL_OPENCV;
 }
+
+INSTALL_FEDORA_2X () {
+   
+    echo " ";
+    echo "${BLUE}${BOLD}DNF Install:${WHITE}${NORMAL}";
+    echo " ${BLUE}  g++ ${WHITE}(C++ compiler)";
+    echo " ${BLUE}  cmake ${WHITE}(Tool to build, test and package software)";
+    echo " ${BLUE}  git ${WHITE}(Distributed version control of software)";
+    echo " ${BLUE}  uvcdynctrl ${WHITE}(Dynamic control of webcams)";
+    echo " ${BLUE}  czmq cppzmq-devel ${WHITE}(Library which implements socket interfaces)";
+    echo " ${BLUE}  protobuf libprotobuf-dev ${WHITE}(Mechanism for serializing structured data)";
+    echo " ${BLUE}  qt5-qtbase qt5-qtbase5-devel qt5-qtdeclarative-devel qt5-qtwebkit-devel ${WHITE}(Framework for applications and user interfaces)";
+    echo " ${BLUE}  sqlite-devel ${WHITE}(Embeddable, zero-configuration SQL database engine)"
+    echo " ${BLUE}  doxygen graphviz graphviz graphviz-devel ${WHITE}(Generator of documentation and graphs)"
+    echo " ${BLUE}  boost-devel ${WHITE}(Peer-reviewed portable C++ source libraries)"
+    echo " ${BLUE}  freeglut freeglut-devel ${WHITE}(OpenGL Utility Toolkit (GLUT) library)"
+    echo " ${BLUE}  bullet-devel ${WHITE}(Physics Library)"
+    echo " ${BLUE}  opencv opencv-devel ${WHITE}(Library of real-time computer vision)" 
+    echo " ";
+    sleep 5;
+
+    sudo dnf install gcc-c++ cmake qconf git uvcdynctrl \
+    czmq cppzmq-devel protobuf protobuf-devel qt5-qtbase \
+    qt5-qtbase-devel qt5-qtdeclarative-devel qt5-qtwebkit-devel \
+    sqlite-devel  doxygen  graphviz graphviz-devel boost-devel \
+    freeglut freeglut-devel bullet-devel opencv opencv-devel
+
+    INSTALL_OPENCV;
+}
+
 
 INSTALL () {
     if [[ "$DISTRO" == "Ubuntu" ]]; then
         if [[ "$RELEASE" == "16.04" ]]; then
             INSTALL_UBUNTU_16_04;
+        elif [[ "$RELEASE" == "14.04" ]]; then
+            INSTALL_UBUNTU_14_04;
         else
-            if [[ "$RELEASE" == "14.04" ]]; then
-                INSTALL_UBUNTU_14_04;
-            else
-                echo "${RED}${BOLD}Ubuntu Unknown";
-            fi 
+            echo "${RED}${BOLD}Ubuntu Unknown";
         fi    
-    else
-        if [[ "$DISTRO" == "Debian" ]]; then
-            if [[ "$RELEASE" == "8.5" ]]; then
-                INSTALL_DEBIAN_8_5;
-            else
-                if [[ "$RELEASE" == "8.2" ]]; then
-                    INSTALL_DEBIAN_8_2;
-                else
-                    echo "${RED}${BOLD}Debian Unknown";
-                fi
-                
-            fi     
+    elif [[ "$DISTRO" == "Debian" ]]; then
+        if [[ "$RELEASE" == "8.5" ]]; then
+            INSTALL_DEBIAN_8_5;
+        elif [[ "$RELEASE" == "8.2" ]]; then
+            INSTALL_DEBIAN_8_2;
         else
-            echo "${RED}${BOLD}Linux Unknown"
+            echo "${RED}${BOLD}Debian Unknown";
         fi
+    elif [[ "$DISTRO" == "Fedora" ]]; then
+    	if [[ "$RELEASE" == "24" ]]; then
+    		INSTALL_FEDORA_2X;
+    	elif [[ "$RELEASE" == "23" ]]; then
+            INSTALL_FEDORA_2X;
+        else
+            echo "${RED}${BOLD}Fedora Unknown";
+        fi            
+else
+        echo "${RED}${BOLD}Linux Unknown";
     fi
+    
 }
 
 
@@ -265,7 +265,19 @@ INFO_MESSAGE;
 INSTALL;
 
 if [ $INSTALLED == 1 ]; then
+    cd "$BASE_PATH"
     ./init.sh
+
+    # Criando Link para o binario do qmake caso não exista
+    if [[ "$DISTRO" == "Fedora" ]] && [ -x /usr/lib64/qt5/bin/qmake ] then
+    	echo ""
+        sed -i 's;/usr/lib/86_64-linux-gnu/qt5/;/usr/lib64/qt5/;' "$BASE_PATH"/VSS-Vision/src/Makefile
+        echo "";
+    else
+        echo "${RED} Erro ao localizar o ${WHITE}qmake${RED}, Instale usando o binario abaixo."
+        echo "${WHITE} http://download.qt.io/official_releases/qt/5.6/5.6.1-1/qt-opensource-linux-x64-5.6.1-1.run"
+    fi
+
     ./update.sh
 else
      echo "${NORMAL}${RED}Exiting ...${WHITE}";
