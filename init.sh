@@ -24,9 +24,9 @@ CONFIGURE_REPOSITORIES () {
     cd VSS-Vision
     git submodule init
     git submodule update
-    make proto
-    make qt
-    make
+    make -j4 proto
+    #make -j4 qt
+    make -j4
     cd ..
 
     echo " ";
@@ -36,8 +36,8 @@ CONFIGURE_REPOSITORIES () {
     cd VSS-Simulator
     git submodule init
     git submodule update
-    make proto
-    make
+    make -j4 proto
+    make -j4
     cd ..
 
     echo " ";
@@ -47,8 +47,8 @@ CONFIGURE_REPOSITORIES () {
     cd VSS-Viewer
     git submodule init
     git submodule update
-    make proto
-    make
+    make -j4 proto
+    make -j4
     cd ..
 
     echo " ";
@@ -58,8 +58,8 @@ CONFIGURE_REPOSITORIES () {
     cd VSS-SampleStrategy
     git submodule init
     git submodule update
-    make proto
-    make
+    make -j4 proto
+    make -j4
     cd ..
 
     echo " ";
@@ -69,8 +69,8 @@ CONFIGURE_REPOSITORIES () {
     cd VSS-Joystick
     git submodule init
     git submodule update
-    make proto
-    make
+    make -j4 proto
+    make -j4
     cd ..
 }
 
